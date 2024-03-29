@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shopping_app/data/app_data.dart';
 import 'package:flutter_shopping_app/models/cart_item.dart';
 import 'package:flutter_shopping_app/models/product.dart';
+import 'package:flutter_shopping_app/pages/detail_product.dart';
 import 'package:flutter_shopping_app/pages/popular_product.dart';
 
 import 'package:flutter_shopping_app/widgets/big_text.dart';
@@ -96,7 +97,128 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
           child: ListView.builder(
             itemCount: app_data.productList.length,
             itemBuilder: (context, index) {
-              return PopularProduct(product: productList[index]);
+              ProductModel product = app_data.productList[index];
+              return Container(
+                  child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailProduct(
+                        product: product,
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  child: Container(
+                    height: 100,
+                    margin: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: AssetImage(product.img),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BigText(
+                              '',
+                              text: product.name,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              width: 220,
+                              child: SmallText(
+                                '',
+                                text: product.description,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Text(
+                                    '${product.price} VND',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    app_data.cartList.add(CartItem(
+                                        product: product, quantity: 1));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.location_on,
+                                    size: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  '5km',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ));
             },
             // itemBuilder: (context, index) {
             //   return InkWell(
@@ -210,7 +332,8 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
 
 //Lấy ảnh từ assets để hiển thị
 Widget _buildPageIteam(int index, BuildContext context) {
-  ProductModel _product = app_data.productList[index];
+  ProductModel product =
+      app_data.productList[app_data.productList.length - 1 - index];
   return Stack(
     children: [
       Container(
@@ -222,7 +345,7 @@ Widget _buildPageIteam(int index, BuildContext context) {
                 : Color.fromARGB(255, 74, 236, 203),
             borderRadius: BorderRadius.circular(30),
             image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage(_product.img))),
+                fit: BoxFit.cover, image: AssetImage(product.img))),
       ),
       Align(
         alignment: Alignment.bottomCenter, // Đặt ở giữa và ở dưới
@@ -235,21 +358,28 @@ Widget _buildPageIteam(int index, BuildContext context) {
           ),
           child: InkWell(
             onTap: () {
-              Navigator.pushNamed(context, '/detail');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailProduct(
+                    product: product,
+                  ),
+                ),
+              );
             },
             child: Container(
               margin: EdgeInsets.all(10),
               child: Column(children: [
                 BigText(
                   '',
-                  text: _product.name,
+                  text: product.name,
                 ),
                 SizedBox(
                   height: 5,
                 ),
                 SmallText(
                   '',
-                  text: _product.description,
+                  text: product.description,
                 ),
                 SizedBox(
                   height: 5,
@@ -258,7 +388,7 @@ Widget _buildPageIteam(int index, BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${_product.price} VND',
+                      '${product.price} VND',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -267,7 +397,7 @@ Widget _buildPageIteam(int index, BuildContext context) {
                     InkWell(
                       onTap: () {
                         app_data.cartList
-                            .add(CartItem(product: _product, quantity: 1));
+                            .add(CartItem(product: product, quantity: 1));
                       },
                       child: Container(
                         decoration: BoxDecoration(
