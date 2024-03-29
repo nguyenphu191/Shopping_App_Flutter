@@ -4,6 +4,8 @@ import 'package:flutter_shopping_app/pages/detail_product.dart';
 import 'package:flutter_shopping_app/pages/home_page.dart';
 import 'package:flutter_shopping_app/pages/cart_page.dart';
 import 'package:flutter_shopping_app/data/app_data.dart' as app_data;
+import 'package:flutter_shopping_app/pages/login.dart';
+import 'package:flutter_shopping_app/pages/signup.dart';
 
 // Future<void> main() async {
 //   //đảm bảo rằng dữ liệu đuọc tải từ server trước
@@ -29,13 +31,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // home: HomePage(),
       routes: {
         '/': (context) => HomePage(),
-        '/detail': (context) => DetailProduct(),
+        // '/detail': (context) => DetailProduct(),
         '/cart': (context) => CartPage(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
       },
-      // home: HomePage(),
-      // home: DetailProduct(),
     );
   }
 }
