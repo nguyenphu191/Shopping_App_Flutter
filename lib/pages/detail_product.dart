@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_shopping_app/models/product.dart';
 import 'package:flutter_shopping_app/widgets/big_text.dart';
 
 class DetailProduct extends StatelessWidget {
-  const DetailProduct({super.key});
+  final ProductModel product;
+  const DetailProduct({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class DetailProduct extends StatelessWidget {
               height: 350,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/image/banhmi.png'),
+                  image: AssetImage(product.img),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,67 +68,70 @@ class DetailProduct extends StatelessWidget {
                   topRight: Radius.circular(40),
                 ),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: BigText('', text: "Bánh mì thịt nướng"),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "20.000đ",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          // child: Icon(
-                          //   Icons.add,
-                          //   size: 20,
-                          // ),
-                        ),
-                      ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: BigText('', text: product.name),
                     ),
-                  ),
-                  Container(
-                    height: 1,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 8, 8, 8),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${product.price}VND',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            // child: Icon(
+                            //   Icons.add,
+                            //   size: 20,
+                            // ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(
-                                bottom: 20, top: 10, left: 10, right: 10),
+                    Container(
+                      height: 1,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 8, 8, 8),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                  bottom: 20, top: 10, left: 10, right: 10),
+                              child: Text(
+                                "Thông tin sản phẩm: ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                ),
+                              )),
+                          Container(
+                            margin: EdgeInsets.all(10),
                             child: Text(
-                              "Thông tin sản phẩm: ",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            )),
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text(
-                              "Bánh mì thịt nướng thường được chế biến nhanh chóng và dễ dàng, phù hợp để thưởng thức trong bữa ăn sáng, trưa hoặc chiều. "),
-                        )
-                      ],
+                              product.description,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
