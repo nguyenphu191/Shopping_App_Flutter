@@ -17,6 +17,13 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     List<CartItem> cartList = app_data.cartList;
+    double tong1 = 0;
+    for (int i = 0; i < cartList.length; i++) {
+      tong1 += cartList[i].product.price * cartList[i].quantity;
+    }
+    double ship;
+    app_data.cartList.length > 0 ? ship = 20000 : ship = 0;
+    double tong2 = tong1 + ship;
     // CartItem cartItem=CartItem(product: product, quantity: 1);
     return Scaffold(
       body: Stack(
@@ -221,7 +228,7 @@ class _CartPageState extends State<CartPage> {
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Text(
-                            '10000 VND',
+                            '$tong1 VND',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -249,7 +256,7 @@ class _CartPageState extends State<CartPage> {
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Text(
-                            '10000 VND',
+                            '$ship VND',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -277,7 +284,7 @@ class _CartPageState extends State<CartPage> {
                         Container(
                           margin: EdgeInsets.only(right: 10),
                           child: Text(
-                            '110000 VND',
+                            '$tong2 VND',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
