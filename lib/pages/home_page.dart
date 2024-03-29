@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_shopping_app/pages/home_body_page.dart';
 import 'package:flutter_shopping_app/widgets/big_text.dart';
 import 'package:flutter_shopping_app/widgets/small_text.dart';
@@ -44,13 +45,60 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(right: 10),
-                child: IconButton(
-                  padding: EdgeInsets.all(10),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/cart');
-                  },
-                  icon: Icon(Icons.shopping_cart),
+                height: 40,
+                width: 120,
+                margin: EdgeInsets.only(right: 20),
+                // decoration: BoxDecoration(
+                //   color: Color.fromARGB(255, 255, 255, 255),
+                // ),
+                child: Row(
+                  children: [
+                    Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/image/nam_avatar.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        )),
+                    Center(
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        child: PopupMenuButton<String>(
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuEntry<String>>[
+                              PopupMenuItem<String>(
+                                value: 'signup',
+                                child: BigText('', text: 'Đăng ký', size: 15),
+                              ),
+                              PopupMenuItem<String>(
+                                value: 'logout',
+                                child: BigText('', text: 'Đăng xuất', size: 15),
+                              ),
+                            ];
+                          },
+                          onSelected: (String value) {
+                            // Xử lý khi lựa chọn một mục trong danh sách
+                            if (value == 'signup') {
+                              Navigator.pushNamed(context, '/signup');
+                            } else if (value == 'logout') {
+                              Navigator.pushNamed(context, '/login');
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.notifications_none_rounded),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -121,6 +169,39 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         Expanded(child: SingleChildScrollView(child: HomeBodyPage())),
+        Container(
+          height: 40,
+          color: Color.fromARGB(255, 255, 255, 255),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+                icon: Icon(Icons.home),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/cart');
+                },
+                icon: Icon(Icons.shopping_cart),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/order');
+                },
+                icon: Icon(Icons.shopping_cart_checkout_outlined),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+                icon: Icon(Icons.person),
+              ),
+            ],
+          ),
+        ),
       ],
     ));
   }
