@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_shopping_app/models/cart_item.dart';
@@ -17,9 +19,9 @@ class DetailProduct extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-            left: 10,
+            left: 0,
+            right: 0,
             top: 0,
-            right: 10,
             child: Container(
               height: 50,
               decoration: BoxDecoration(
@@ -53,7 +55,13 @@ class DetailProduct extends StatelessWidget {
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(product.img),
+                  image: (product.img.isNotEmpty &&
+                          File(product.img).existsSync())
+                      ? FileImage(
+                          File(product.img)) // Nếu đường dẫn hệ thống tồn tại
+                      : (product.img.isNotEmpty)
+                          ? AssetImage(product.img)
+                          : AssetImage('') as ImageProvider,
                   fit: BoxFit.cover,
                 ),
               ),

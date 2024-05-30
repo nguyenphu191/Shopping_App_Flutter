@@ -14,62 +14,6 @@ class LoginPage extends StatelessWidget {
     // LoginController controller = Get.put(LoginController());
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    // void login() {
-    //   String email = emailController.text.trim();
-    //   String password = passwordController.text.trim();
-    //   bool ckemail = false;
-    //   bool ckpassword = false;
-    //   for (var i = 0; i < app_data.userList.length; i++) {
-    //     if (app_data.userList[i].email == email) {
-    //       ckemail = true;
-    //       if (app_data.userList[i].password == password) {
-    //         ckpassword = true;
-    //       }
-    //       break;
-    //     }
-    //   }
-    //   if (email.isEmpty) {
-    //     ShowMessage(
-    //         context: Get.context!, title: "Nhập email", message: "Nhập email");
-    //   } else if (!GetUtils.isEmail(email)) {
-    //     ShowMessage(
-    //         context: Get.context!,
-    //         title: "Email không hợp lệ ",
-    //         message: "Email không hợp lệ");
-    //   } else if (password.isEmpty) {
-    //     ShowMessage(
-    //         context: Get.context!,
-    //         title: "Nhập mật khẩu",
-    //         message: "Nhập mật khẩu");
-    //   } else if (ckemail == false) {
-    //     ShowMessage(
-    //         context: Get.context!,
-    //         title: "Email chưa được đăng ký",
-    //         message: "Email chưa được đăng ký");
-    //   } else if (ckpassword == false) {
-    //     ShowMessage(
-    //         context: Get.context!,
-    //         title: "Sai mật khẩu",
-    //         message: "Sai mật khẩu");
-    //   } else {
-    //     showCupertinoDialog(
-    //         context: context,
-    //         builder: (context) {
-    //           return CupertinoAlertDialog(
-    //             title: Text("Đăng nhập thành công"),
-    //             content: Text("Đăng nhập thành công"),
-    //             actions: [
-    //               CupertinoDialogAction(
-    //                 child: Text("OK"),
-    //                 onPressed: () {
-    //                   Navigator.pushNamed(context, '/');
-    //                 },
-    //               )
-    //             ],
-    //           );
-    //         });
-    //   }
-    // }
 
     return SafeArea(
       child: Scaffold(

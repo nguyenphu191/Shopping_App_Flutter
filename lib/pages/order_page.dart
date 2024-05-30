@@ -28,8 +28,8 @@ class _OrderPageState extends State<OrderPage> {
           child: Stack(
             children: [
               Positioned(
-                  left: 10,
-                  right: 10,
+                  left: 0,
+                  right: 0,
                   top: 10,
                   child: Container(
                     height: 50,
@@ -183,7 +183,9 @@ class _OrderPageState extends State<OrderPage> {
                                         margin: EdgeInsets.only(right: 10),
                                         child: SmallText(
                                           '',
-                                          text: item.product.price.toString(),
+                                          text: (item.product.price *
+                                                  item.quantity)
+                                              .toString(),
                                         ),
                                       ),
                                     ],

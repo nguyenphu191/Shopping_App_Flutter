@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_app/models/User.dart';
 import 'package:flutter_shopping_app/models/cart_item.dart';
 import 'package:flutter_shopping_app/models/product.dart';
+import 'package:flutter_shopping_app/pages/all_product.dart';
 import 'package:flutter_shopping_app/pages/detail_product.dart';
-
+import 'package:flutter_shopping_app/controller/popular_product_contro.dart'
+    as ppcontrol;
 import 'package:flutter_shopping_app/widgets/big_text.dart';
 import 'package:flutter_shopping_app/widgets/small_text.dart';
 import 'package:flutter_shopping_app/data/app_data.dart' as app_data;
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class HomeBodyPage extends StatefulWidget {
   final User user;
@@ -43,13 +46,15 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
   @override
   Widget build(BuildContext context) {
     User user = widget.user;
+    List<ProductModel> popularProductList =
+        ppcontrol.PopularProductList(app_data.productList);
     return Column(
       children: [
         Container(
           height: 320,
           child: PageView.builder(
               controller: pageController,
-              itemCount: app_data.productList.length,
+              itemCount: popularProductList.length ~/ 2,
               itemBuilder: (context, position) {
                 return _buildPageIteam(position, context, user);
               }),
@@ -57,7 +62,7 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
 
         // Hiển thị các chấm để biểu thị trang hiện tại
         new DotsIndicator(
-          dotsCount: app_data.productList.length,
+          dotsCount: popularProductList.length ~/ 2,
           position: _currentPage,
           decorator: DotsDecorator(
             size: const Size.square(9.0),
@@ -84,11 +89,23 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
               SizedBox(
                 width: 20,
               ),
-              Container(
-                child: SmallText(
-                  '',
-                  text: "Xem tất cả",
+              InkWell(
+                child: Container(
+                  child: SmallText(
+                    '',
+                    text: "Xem tất cả",
+                  ),
                 ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllProduct(
+                        user: widget.user,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -97,9 +114,10 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
         Container(
           height: 400,
           child: ListView.builder(
-            itemCount: app_data.productList.length,
+            itemCount: popularProductList.length ~/ 2,
             itemBuilder: (context, index) {
-              ProductModel product = app_data.productList[index];
+              ProductModel product =
+                  popularProductList[index + popularProductList.length ~/ 2];
               return Container(
                   child: InkWell(
                 onTap: () {
@@ -129,8 +147,14 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: DecorationImage(
+                              image: (product.img.isNotEmpty &&
+                                      File(product.img).existsSync())
+                                  ? FileImage(File(product
+                                      .img)) // Nếu đường dẫn hệ thống tồn tại
+                                  : (product.img.isNotEmpty)
+                                      ? AssetImage(product.img)
+                                      : AssetImage('') as ImageProvider,
                               fit: BoxFit.cover,
-                              image: AssetImage(product.img),
                             ),
                           ),
                         ),
@@ -252,20 +276,28 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
 
 //Lấy ảnh từ assets để hiển thị
 Widget _buildPageIteam(int index, BuildContext context, User user) {
-  ProductModel product =
-      app_data.productList[app_data.productList.length - 1 - index];
+  List<ProductModel> popularProductList =
+      ppcontrol.PopularProductList(app_data.productList);
+  ProductModel product = popularProductList[index];
   return Stack(
     children: [
       Container(
         height: 220,
         margin: EdgeInsets.only(left: 5, right: 5),
         decoration: BoxDecoration(
-            color: index.isEven
-                ? Color.fromARGB(255, 241, 203, 65)
-                : Color.fromARGB(255, 74, 236, 203),
-            borderRadius: BorderRadius.circular(30),
-            image: DecorationImage(
-                fit: BoxFit.cover, image: AssetImage(product.img))),
+          color: index.isEven
+              ? Color.fromARGB(255, 241, 203, 65)
+              : Color.fromARGB(255, 74, 236, 203),
+          borderRadius: BorderRadius.circular(30),
+          image: DecorationImage(
+            image: (product.img.isNotEmpty && File(product.img).existsSync())
+                ? FileImage(File(product.img)) // Nếu đường dẫn hệ thống tồn tại
+                : (product.img.isNotEmpty)
+                    ? AssetImage(product.img)
+                    : AssetImage('') as ImageProvider,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       Align(
         alignment: Alignment.bottomCenter, // Đặt ở giữa và ở dưới
@@ -371,126 +403,3 @@ Widget _buildPageIteam(int index, BuildContext context, User user) {
     ],
   );
 }
-
-// class PopularProduct extends StatelessWidget {
-//   final ProductModel product;
-//   PopularProduct({required this.product});
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () {
-//         Navigator.pushNamed(context, '/detail');
-//       },
-//       child: Container(
-//         margin: EdgeInsets.only(left: 20, right: 20),
-//         child: Container(
-//           height: 110,
-//           margin: EdgeInsets.only(top: 10),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.circular(20),
-//           ),
-//           child: Row(
-//             children: [
-//               Container(
-//                 height: 100,
-//                 width: 100,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(20),
-//                   image: DecorationImage(
-//                     fit: BoxFit.cover,
-//                     image: AssetImage(product.img),
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(
-//                 width: 20,
-//               ),
-//               Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   BigText(
-//                     '',
-//                     text: product.name,
-//                   ),
-//                   SizedBox(
-//                     height: 5,
-//                   ),
-//                   Container(
-//                     width: 220,
-//                     child: SmallText(
-//                       '',
-//                       text: product.description,
-//                       overflow: TextOverflow.ellipsis,
-//                     ),
-//                   ),
-//                   SizedBox(
-//                     height: 5,
-//                   ),
-//                   Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: [
-//                       Container(
-//                         child: Text(
-//                           '${product.price} VND',
-//                           style: TextStyle(
-//                             fontSize: 10,
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         width: 50,
-//                       ),
-//                       InkWell(
-//                         onTap: () {
-//                           app_data.cartList
-//                               .add(CartItem(product: product, quantity: 1));
-//                           Get.snackbar(
-//                               'Thêm vào giỏ hàng', 'Đã thêm vào giỏ hàng');
-//                         },
-//                         child: Container(
-//                           decoration: BoxDecoration(
-//                             color: Colors.blue,
-//                             borderRadius: BorderRadius.circular(50),
-//                           ),
-//                           child: Icon(
-//                             Icons.add,
-//                             size: 25,
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   SizedBox(
-//                     height: 5,
-//                   ),
-//                   Row(
-//                     children: [
-//                       Container(
-//                         child: Icon(
-//                           Icons.location_on,
-//                           size: 15,
-//                         ),
-//                       ),
-//                       SizedBox(
-//                         width: 5,
-//                       ),
-//                       Text(
-//                         '5km',
-//                         style: TextStyle(
-//                           fontSize: 10,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -24,8 +24,8 @@ class _OrderListPageState extends State<OrderListPage> {
         body: Stack(
           children: [
             Positioned(
-                left: 10,
-                right: 10,
+                left: 0,
+                right: 0,
                 top: 10,
                 child: Container(
                   height: 50,

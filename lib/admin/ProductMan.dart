@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_app/models/product.dart';
@@ -108,7 +110,14 @@ class ProductMan extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
-                                        image: AssetImage(product.img),
+                                        image: (product.img.isNotEmpty &&
+                                                File(product.img).existsSync())
+                                            ? FileImage(File(product
+                                                .img)) // Nếu đường dẫn hệ thống tồn tại
+                                            : (product.img.isNotEmpty)
+                                                ? AssetImage(product.img)
+                                                : AssetImage('')
+                                                    as ImageProvider,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

@@ -5,6 +5,7 @@ import 'package:flutter_shopping_app/models/cart_item.dart';
 import 'package:flutter_shopping_app/models/product.dart';
 
 ProductModel banhmithitnuong = ProductModel(
+    id: 1,
     name: 'Bánh mì thịt nướng',
     price: 20000,
     img: 'assets/image/banhmi.png',
@@ -13,6 +14,7 @@ ProductModel banhmithitnuong = ProductModel(
     location: 'Hà Nội',
     sold: 0);
 ProductModel bunbohue = ProductModel(
+    id: 2,
     name: 'Bún bò huế',
     price: 30000,
     description:
@@ -21,6 +23,7 @@ ProductModel bunbohue = ProductModel(
     location: 'Huế',
     sold: 0);
 ProductModel bunrieu = ProductModel(
+    id: 3,
     name: 'Bún riêu',
     price: 25000,
     description:
@@ -29,6 +32,7 @@ ProductModel bunrieu = ProductModel(
     location: 'Hải Phòng',
     sold: 0);
 ProductModel comtam = ProductModel(
+    id: 4,
     name: 'Cơm tấm',
     price: 25000,
     description:
@@ -37,6 +41,7 @@ ProductModel comtam = ProductModel(
     location: 'Hà Nội',
     sold: 0);
 ProductModel nemnuong = ProductModel(
+    id: 5,
     name: 'Nem nướng',
     price: 25000,
     description:
@@ -45,6 +50,7 @@ ProductModel nemnuong = ProductModel(
     location: 'Hải Dương',
     sold: 0);
 ProductModel mucrim = ProductModel(
+    id: 6,
     name: 'Mực rim cay',
     price: 50000,
     description:
@@ -53,6 +59,7 @@ ProductModel mucrim = ProductModel(
     location: 'Hà Nội',
     sold: 0);
 ProductModel raumuong = ProductModel(
+    id: 7,
     name: 'Rau muống xào tỏi',
     price: 20000,
     description:
@@ -61,6 +68,7 @@ ProductModel raumuong = ProductModel(
     location: 'Hà Nội',
     sold: 0);
 ProductModel sushi = ProductModel(
+    id: 8,
     name: 'Sushi cá hồi',
     price: 60000,
     description:
@@ -69,7 +77,7 @@ ProductModel sushi = ProductModel(
     location: 'Hà Nội',
     sold: 0);
 ProductModel sp0 = ProductModel(
-    name: '', price: 0, description: '', img: '', location: '', sold: 0);
+    id: 0, name: '', price: 0, description: '', img: '', location: '', sold: 0);
 CartItem it0 = CartItem(product: sp0, quantity: 0);
 List<ProductModel> productList = [
   banhmithitnuong,
@@ -81,7 +89,7 @@ List<ProductModel> productList = [
   raumuong,
   sushi
 ];
-
+List<ProductModel> searchList = [];
 List<CartItem> cartList = [
   it0,
   // CartItem(product: bunbohue, quantity: 1),
@@ -159,7 +167,7 @@ User user4 = User(
   orderList: [],
 );
 
-List<OrderModel> orderList = [order1];
+List<OrderModel> orderList = [];
 List<User> userList = [user1, user2, user3, user4];
 // List<OrderModel> orderList = [
 //   OrderModel(id: '1', cartList: cartList1, total: 100000, isDone: false,),

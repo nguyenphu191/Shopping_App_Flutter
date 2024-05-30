@@ -55,23 +55,4 @@ class User {
   set setCity(String x) {
     city = x;
   }
-  // User.fromJson(Map<String, dynamic> json) {
-  //   username = json['username'];
-  //   email = json['email'];
-  //   phone = json['phone'];
-  //   password = json['password'];
-  //   city = json['city'];
-  //   id = json['id'];
-  // }
-
-  // Map<String, dynamic> toJson() {
-  //   final Map<String, dynamic> data = new Map<String, dynamic>();
-  //   data['username'] = this.username;
-  //   data['email'] = this.email;
-  //   data['phone'] = this.phone;
-  //   data['password'] = this.password;
-  //   data['city'] = this.city;
-  //   data['id'] = this.id;
-  //   return data;
-  // }
 }

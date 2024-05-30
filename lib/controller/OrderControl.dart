@@ -8,7 +8,7 @@ import 'package:flutter_shopping_app/pages/OrderListPage.dart';
 double getTotal(User user) {
   double _total = 0;
   for (var i = 1; i < user.cartList.length; i++) {
-    _total += user.cartList[i].product.price;
+    _total += user.cartList[i].product.price * user.cartList[i].quantity;
   }
   _total += 20000;
   return _total;
@@ -33,6 +33,11 @@ void order(User user, String ReName, String Address, String phone, context) {
         context: context,
         title: "Nhập số điện thoại",
         message: "Nhập số điện thoại");
+  } else if (checkPhone(phone) == false) {
+    ShowMessage(
+        context: context,
+        title: "Số điện thoại không hợp lệ",
+        message: "Số điện thoại không hợp lệ");
   } else {
     OrderModel orderModel = OrderModel(
         id: (user.orderList.length + 1).toString(),
@@ -78,18 +83,18 @@ void order(User user, String ReName, String Address, String phone, context) {
   }
 }
 
-// checkPhone(TextEditingController txtController) {
-//   if (txtController.text.length != 10) {
-//     return false;
-//   }
-//   for (var i = 0; i < txtController.text.length; i++) {
-//     if (txtController.text.codeUnitAt(i) <= '0'.codeUnitAt(i) &&
-//         txtController.text.codeUnitAt(i) >= '9'.codeUnitAt(i)) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
+checkPhone(String phone) {
+  if (phone.length != 10) {
+    return false;
+  }
+  for (var i = 0; i < 10; i++) {
+    if (int.parse(phone[i]) < 0 && int.parse(phone[i]) > 9) {
+      return false;
+    }
+  }
+  return true;
+}
+
 ShowMessage(
     {required BuildContext context,
     required String title,

@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_shopping_app/models/User.dart';
 import 'package:flutter_shopping_app/pages/OrderListPage.dart';
+import 'package:flutter_shopping_app/pages/SearchPage.dart';
 import 'package:flutter_shopping_app/pages/cart_page.dart';
 import 'package:flutter_shopping_app/pages/home_body_page.dart';
 import 'package:flutter_shopping_app/pages/profile.dart';
 import 'package:flutter_shopping_app/widgets/big_text.dart';
 import 'package:flutter_shopping_app/widgets/small_text.dart';
+import 'package:flutter_shopping_app/controller/searchControl.dart'
+    as searchControll;
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -20,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
     return SafeArea(
       child: Scaffold(
           body: Stack(
@@ -148,33 +150,75 @@ class _HomePageState extends State<HomePage> {
                   ),
                   //Tạo nút tìm kiếm
                   Center(
-                    child: Container(
-                        width: 100,
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(left: 10),
-                              child: Text("Tìm kiếm",
-                                  style: TextStyle(
+                    child: InkWell(
+                        child: Container(
+                            width: 100,
+                            height: 30,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text("Tìm kiếm",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      )),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(right: 10),
+                                  child: Icon(
+                                    Icons.search,
                                     color: Colors.black,
-                                    fontSize: 10,
-                                  )),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 123, 194, 253),
-                          borderRadius: BorderRadius.circular(15),
-                        )),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 123, 194, 253),
+                              borderRadius: BorderRadius.circular(15),
+                            )),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Tìm kiếm'),
+                                content: InputBox(
+                                  hint: 'Nhập tên sản phẩm',
+                                  txtController: nameController,
+                                  isSecured: false,
+                                ),
+                                actions: <Widget>[
+                                  InkWell(
+                                    child: Text('Search'),
+                                    onTap: () {
+                                      searchControll
+                                          .search(nameController.text.trim());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SearchPage(
+                                            user: widget.user,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  InkWell(
+                                    child: Text('Cancel'),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }),
                   ),
                 ],
               ),

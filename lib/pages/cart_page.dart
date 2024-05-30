@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_app/models/User.dart';
 import 'package:flutter_shopping_app/models/cart_item.dart';
@@ -34,8 +36,8 @@ class _CartPageState extends State<CartPage> {
         body: Stack(
           children: [
             Positioned(
-                left: 10,
-                right: 10,
+                left: 0,
+                right: 0,
                 top: 10,
                 child: Container(
                   height: 50,
@@ -126,7 +128,15 @@ class _CartPageState extends State<CartPage> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
-                                        image: AssetImage(item.product.img),
+                                        image: (item.product.img.isNotEmpty &&
+                                                File(item.product.img)
+                                                    .existsSync())
+                                            ? FileImage(File(item.product
+                                                .img)) // Nếu đường dẫn hệ thống tồn tại
+                                            : (item.product.img.isNotEmpty)
+                                                ? AssetImage(item.product.img)
+                                                : AssetImage('')
+                                                    as ImageProvider,
                                         fit: BoxFit.cover,
                                       ),
                                     ),

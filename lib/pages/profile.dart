@@ -83,11 +83,11 @@ class _ProfileState extends State<Profile> {
                     ),
                   )),
               Positioned(
-                top: 50,
+                top: 70,
                 left: 10,
                 right: 10,
                 child: Container(
-                  height: 730,
+                  height: 700,
                   width: 320,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.8),
@@ -96,216 +96,257 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               Positioned(
-                  top: 50,
+                  top: 80,
                   left: 10,
                   right: 10,
                   child: Container(
-                    margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.center,
                     child: BigText('', text: "Thông tin người dùng"),
                   )),
               Positioned(
-                top: 70,
-                left: 15,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 5),
-                      height: 150,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/image/nam_avatar.png'),
-                          fit: BoxFit.cover,
+                top: 120,
+                left: 120,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/image/nam_avatar.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 280,
+                left: 30,
+                child: Container(
+                  height: 400,
+                  width: 320,
+                  // color: const Color.fromARGB(255, 149, 24, 24),
+                  margin: EdgeInsets.only(left: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: BigText('',
+                                    text: 'Tên người dùng: ', size: 15)),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.person,
+                                  ),
+                                ),
+                                Container(
+                                    width: 230,
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: BigText('',
+                                        text: user.username.toString(),
+                                        size: 15)),
+                                Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                                Text('Sửa thông tin cá nhân'),
+                                            content: InputBox(
+                                              hint: 'Nhập tên mới của bạn',
+                                              txtController: nameController,
+                                              isSecured: false,
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                child: Text('Save'),
+                                                onTap: () {
+                                                  control.editName(
+                                                      nameController,
+                                                      user,
+                                                      context);
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              InkWell(
+                                                child: Text('Cancel'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 250,
-                      width: 260,
-                      // color: const Color.fromARGB(255, 149, 24, 24),
-                      margin: EdgeInsets.only(left: 30, top: 30),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: BigText('',
+                                    text: 'Số điện thoại: ', size: 15)),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.phone,
+                                  ),
+                                ),
+                                Container(
+                                    width: 230,
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: BigText('',
+                                        text: user.phone.toString(), size: 15)),
+                                Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                                Text('Sửa thông tin cá nhân'),
+                                            content: InputBox(
+                                              hint:
+                                                  'Nhập số điện thoại mới của bạn',
+                                              txtController: phoneController,
+                                              isSecured: false,
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                child: Text('Save'),
+                                                onTap: () {
+                                                  control.editPhone(
+                                                      phoneController,
+                                                      user,
+                                                      context);
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              InkWell(
+                                                child: Text('Cancel'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: BigText('', text: 'Email: ', size: 15)),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.email,
+                                  ),
+                                ),
+                                Container(
+                                    width: 230,
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: BigText('',
+                                        text: user.email.toString(), size: 15)),
+                                Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title:
+                                                Text('Sửa thông tin cá nhân'),
+                                            content: InputBox(
+                                              hint: 'Nhập email mới của bạn',
+                                              txtController: emailController,
+                                              isSecured: false,
+                                            ),
+                                            actions: <Widget>[
+                                              InkWell(
+                                                child: Text('Save'),
+                                                onTap: () {
+                                                  control.editEmail(
+                                                      emailController,
+                                                      user,
+                                                      context);
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              InkWell(
+                                                child: Text('Cancel'),
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          child: Column(
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                child: Icon(
-                                  Icons.person,
-                                ),
-                              ),
-                              Container(
-                                  width: 180,
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(left: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: BigText('',
-                                      text: user.username.toString(),
-                                      size: 15)),
-                              Container(
-                                child: IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Sửa thông tin cá nhân'),
-                                          content: InputBox(
-                                            hint: 'Nhập tên mới của bạn',
-                                            txtController: nameController,
-                                            isSecured: false,
-                                          ),
-                                          actions: <Widget>[
-                                            InkWell(
-                                              child: Text('Save'),
-                                              onTap: () {
-                                                control.editName(nameController,
-                                                    user, context);
-                                              },
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            InkWell(
-                                              child: Text('Cancel'),
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                child: Icon(
-                                  Icons.phone,
-                                ),
-                              ),
-                              Container(
-                                  width: 180,
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(left: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: BigText('',
-                                      text: user.phone.toString(), size: 15)),
-                              Container(
-                                child: IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Sửa thông tin cá nhân'),
-                                          content: InputBox(
-                                            hint:
-                                                'Nhập số điện thoại mới của bạn',
-                                            txtController: phoneController,
-                                            isSecured: false,
-                                          ),
-                                          actions: <Widget>[
-                                            InkWell(
-                                              child: Text('Save'),
-                                              onTap: () {
-                                                control.editPhone(
-                                                    phoneController,
-                                                    user,
-                                                    context);
-                                              },
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            InkWell(
-                                              child: Text('Cancel'),
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                child: Icon(
-                                  Icons.email,
-                                ),
-                              ),
-                              Container(
-                                  width: 180,
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(left: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: BigText('',
-                                      text: user.email.toString(), size: 15)),
-                              Container(
-                                child: IconButton(
-                                  icon: Icon(Icons.edit),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text('Sửa thông tin cá nhân'),
-                                          content: InputBox(
-                                            hint: 'Nhập email mới của bạn',
-                                            txtController: emailController,
-                                            isSecured: false,
-                                          ),
-                                          actions: <Widget>[
-                                            InkWell(
-                                              child: Text('Save'),
-                                              onTap: () {
-                                                control.editEmail(
-                                                    emailController,
-                                                    user,
-                                                    context);
-                                              },
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            InkWell(
-                                              child: Text('Cancel'),
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                          Container(
+                              alignment: Alignment.centerLeft,
+                              child:
+                                  BigText('', text: 'Thành phố: ', size: 15)),
                           Row(
                             children: [
                               Container(
@@ -314,7 +355,7 @@ class _ProfileState extends State<Profile> {
                                 ),
                               ),
                               Container(
-                                  width: 180,
+                                  width: 230,
                                   alignment: Alignment.topLeft,
                                   padding: EdgeInsets.only(left: 5),
                                   decoration: BoxDecoration(
@@ -363,43 +404,41 @@ class _ProfileState extends State<Profile> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Container(
-                                child: Icon(
-                                  Icons.shopping_cart,
-                                ),
-                              ),
-                              Container(
-                                  width: 180,
-                                  alignment: Alignment.topLeft,
-                                  padding: EdgeInsets.only(left: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: BigText('',
-                                      text: user.orderList.length.toString(),
-                                      size: 15)),
-                            ],
-                          ),
                         ],
+                      )),
+                      Container(
+                        child: Column(
+                          children: [
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: BigText('',
+                                    text: 'Số đơn hàng: ', size: 15)),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Icon(
+                                    Icons.shopping_cart,
+                                  ),
+                                ),
+                                Container(
+                                    width: 230,
+                                    alignment: Alignment.topLeft,
+                                    padding: EdgeInsets.only(left: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: BigText('',
+                                        text: user.orderList.length.toString(),
+                                        size: 15)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Positioned(
-                top: 350,
-                left: 20,
-                right: 20,
-                bottom: 10,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container()),
               ),
             ],
           ),
