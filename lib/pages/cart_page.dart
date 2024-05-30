@@ -107,6 +107,7 @@ class _CartPageState extends State<CartPage> {
                                   MaterialPageRoute(
                                       builder: (context) => DetailProduct(
                                             product: item.product,
+                                            user: widget.user,
                                           )));
                             },
                             child: Container(

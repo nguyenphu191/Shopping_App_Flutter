@@ -102,6 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                                 MaterialPageRoute(
                                   builder: (context) => DetailProduct(
                                     product: product,
+                                    user: user,
                                   ),
                                 ),
                               );

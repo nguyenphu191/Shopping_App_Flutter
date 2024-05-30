@@ -126,6 +126,7 @@ class _HomeBodyPageState extends State<HomeBodyPage> {
                     MaterialPageRoute(
                       builder: (context) => DetailProduct(
                         product: product,
+                        user: widget.user,
                       ),
                     ),
                   );
@@ -315,6 +316,7 @@ Widget _buildPageIteam(int index, BuildContext context, User user) {
                 MaterialPageRoute(
                   builder: (context) => DetailProduct(
                     product: product,
+                    user: user,
                   ),
                 ),
               );

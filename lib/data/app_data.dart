@@ -126,6 +126,16 @@ OrderModel order1 = OrderModel(
   phone: "1234567890",
   dateComplete: "2021-10-11",
 );
+User adminn = User(
+  username: "",
+  email: "",
+  phone: "",
+  password: "",
+  city: "",
+  productList: [],
+  cartList: [it0],
+  orderList: [],
+);
 User user1 = User(
   username: "phu",
   email: "phu19@gmail.com",

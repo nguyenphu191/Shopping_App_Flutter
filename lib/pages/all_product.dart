@@ -96,6 +96,7 @@ class _AllProductState extends State<AllProduct> {
                                   MaterialPageRoute(
                                       builder: (context) => DetailProduct(
                                             product: product,
+                                            user: user,
                                           )));
                             },
                             child: Container(

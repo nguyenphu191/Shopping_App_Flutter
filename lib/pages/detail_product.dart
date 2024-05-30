@@ -2,19 +2,27 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_shopping_app/models/User.dart';
 import 'package:flutter_shopping_app/models/cart_item.dart';
 import 'package:flutter_shopping_app/models/product.dart';
 import 'package:flutter_shopping_app/widgets/big_text.dart';
-import 'package:flutter_shopping_app/data/app_data.dart' as app_data;
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class DetailProduct extends StatelessWidget {
+class DetailProduct extends StatefulWidget {
   final ProductModel product;
-  const DetailProduct({super.key, required this.product});
+  final User user;
+  const DetailProduct({super.key, required this.product, required this.user});
 
   @override
+  State<DetailProduct> createState() => _DetailProductState();
+}
+
+class _DetailProductState extends State<DetailProduct> {
+  @override
   Widget build(BuildContext context) {
+    User user = widget.user;
+    ProductModel product = widget.product;
     return Scaffold(
       body: Stack(
         children: [
@@ -162,14 +170,14 @@ class DetailProduct extends StatelessWidget {
             bottom: 5,
             child: InkWell(
               onTap: () {
-                for (int i = 0; i < app_data.user1.cartList.length; i++) {
-                  if (app_data.user1.cartList[i].product.id == product.id) {
-                    app_data.user1.cartList[i].quantity++;
+                for (int i = 0; i < user.cartList.length; i++) {
+                  if (user.cartList[i].product.id == product.id) {
+                    user.cartList[i].quantity++;
                     Get.snackbar('Thêm vào giỏ hàng', 'Đã thêm vào giỏ hàng');
                     return;
                   }
                 }
-                app_data.user1.addCart(CartItem(product: product, quantity: 1));
+                user.addCart(CartItem(product: product, quantity: 1));
                 Get.snackbar('Thêm vào giỏ hàng', 'Đã thêm vào giỏ hàng');
               },
               child: Container(

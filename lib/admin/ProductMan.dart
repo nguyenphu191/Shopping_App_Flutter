@@ -91,6 +91,7 @@ class ProductMan extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => DetailProduct(
                                             product: product,
+                                            user: app_data.adminn,
                                           )));
                             },
                             child: Container(
