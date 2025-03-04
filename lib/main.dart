@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shopping_app/admin/OrderMan.dart';
-import 'package:flutter_shopping_app/admin/ProductMan.dart';
-import 'package:flutter_shopping_app/admin/UserMan.dart';
-import 'package:flutter_shopping_app/admin/admin_page.dart';
-import 'package:flutter_shopping_app/pages/login.dart';
-
-import 'package:flutter_shopping_app/pages/signup.dart';
-// import 'package:flutter_shopping_app/helper/dependencies.dart' as dep;
+import 'package:flutter_shopping_app/pages/LoginPage.dart';
+import 'package:flutter_shopping_app/pages/SignupPage.dart';
+import 'package:flutter_shopping_app/provider/AuthProvider.dart';
+import 'package:flutter_shopping_app/provider/CartProvider.dart';
+import 'package:flutter_shopping_app/provider/OrderProvider.dart';
+import 'package:flutter_shopping_app/provider/ProductProvider.dart';
+import 'package:flutter_shopping_app/provider/ReviewProvider.dart';
+import 'package:flutter_shopping_app/provider/UserProvider.dart';
+import 'package:flutter_shopping_app/provider/VariantProvider.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-Future<void> main() async {
-  //đảm bảo rằng dữ liệu đuọc tải từ server trước
-  // WidgetsFlutterBinding.ensureInitialized();
-  // //tải dữ liệu từ server
-  // await dep.init();
-  runApp(const MyApp());
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => ReviewProvider()),
+        ChangeNotifierProvider(create: (_) => VariantProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
-// void main() {
-//   runApp(const MyApp());
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -26,7 +34,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // Get.find<PopularProductContro>().getPopularProductList();
     return SafeArea(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
@@ -37,18 +44,12 @@ class MyApp extends StatelessWidget {
         // home: HomePage(),
         routes: {
           '/': (context) => LoginPage(),
+          // '/': (context) => SellerPage(seller: seller),
           // '/home': (context) => HomePage(),
           // '/detail': (context) => DetailProduct(),
           // '/cart': (context) => CartPage(),
           '/login': (context) => LoginPage(),
           '/signup': (context) => SignUpPage(),
-          // '/order': (context) => OrderPage(),
-          // '/orderlist': (context) => OrderListPage(),
-          // '/profile': (context) => Profile(),
-          '/admin': (context) => AdminPage(),
-          '/admin/order': (context) => OrderMan(),
-          '/admin/user': (context) => UserMan(),
-          '/admin/product': (context) => ProductMan(),
         },
       ),
     );

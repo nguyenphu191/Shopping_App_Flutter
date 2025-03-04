@@ -1,58 +1,41 @@
-import 'package:flutter_shopping_app/models/OrderModel.dart';
-import 'package:flutter_shopping_app/models/cart_item.dart';
-import 'package:flutter_shopping_app/models/product.dart';
-import 'package:flutter_shopping_app/data/app_data.dart' as app_data;
+import 'package:flutter_shopping_app/models/Address.dart';
 
 class User {
-  String? username;
-  String? email;
-  String? phone;
-  String? password;
-  String? city;
-  String? id;
-  late List<ProductModel> productList;
-  late List<CartItem> cartList;
-  late List<OrderModel> orderList;
-  User(
-      {this.username,
-      this.email,
-      this.phone,
-      this.password,
-      this.city,
-      this.id,
-      required this.productList,
-      required this.cartList,
-      required this.orderList});
+  late String id;
+  late String username;
+  late String email;
+  late String phone;
+  late String password;
+  late Address address;
 
-  void addCart(CartItem x) {
-    cartList.add(x);
+  late List<String> productList;
+  late List<String> cartList;
+  late List<String> orderList;
+  User({
+    required this.username,
+    required this.email,
+    required this.phone,
+    required this.password,
+    required this.id,
+    required this.address,
+  });
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+    email = json['email'];
+    phone = json['phone'];
+    password = json['password'];
+    address = Address.fromJson(json['address']);
   }
-
-  set addOrder(OrderModel x) {
-    orderList.add(x);
-  }
-
-  void reCart() {
-    cartList = [app_data.it0];
-  }
-
-  set setName(String x) {
-    username = x;
-  }
-
-  set setEmail(String x) {
-    email = x;
-  }
-
-  set setPhone(String x) {
-    phone = x;
-  }
-
-  set setPass(String x) {
-    password = x;
-  }
-
-  set setCity(String x) {
-    city = x;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> user = new Map<String, dynamic>();
+    user['id'] = this.id;
+    user['username'] = this.username;
+    user['email'] = this.email;
+    user['phone'] = this.phone;
+    user['password'] = this.password;
+    user['address'] = this.address.toJson();
+    return user;
   }
 }
