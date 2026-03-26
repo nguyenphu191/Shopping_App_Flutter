@@ -1,0 +1,92 @@
+{"user": [
+    {"id": 1,
+    "username": "phu",
+    "email": "phu19@gmail.com",
+    "phone": "1234567890",
+    "password": "123456",
+    "city": "Hà Nội",
+    "productList": [],
+    "cartList": [],
+    "orderList": []},
+    {"id": 2,
+    "username": "ngan",
+    "email": "ngan03@gmail.com",
+    "phone": "1854567890",
+    "password": "123456",
+    "city": "Hà Nội",
+    "productList": [],
+    "cartList": [],
+    "orderList": []}
+
+],
+"product": [
+    {"id": 1,
+        "name": "Bánh mì thịt nướng",
+    "price": 20000,
+   "img": "assets/image/banhmi.png",
+    "description":
+        "Bánh mì thịt nướng là một món ăn phổ biến của người Việt Nam. Món ăn này thường được chế biến từ thịt nướng, rau sống, nước mắm, tương ớt, và bánh mì.",
+    "location": "Hà Nội",
+    "sold": 0
+    },
+    {"id": 2,
+        "name": "Bún bò huế",
+    "price": 30000,
+    "description":
+        "Bún bò Huế là một món ăn truyền thống nổi tiếng của miền Trung Việt Nam, đặc biệt là từ thành phố Huế. Món này thường được chế biến từ bún (bún là loại bún mì), thịt bò, huyết heo, hành, ngò, rau sống và gia vị.Cách chế biến bún bò Huế bao gồm việc nấu nước dùng từ xương bò và thịt bò, sau đó thêm các loại gia vị như ớt, bột nêm, mắm ruốc để tạo ra hương vị đặc trưng của món ăn này. Bún bò Huế thường được phục vụ nóng, kèm theo rau sống, giá, hành, ngò và chanh để tạo ra hương vị đặc trưng và thơm ngon.Bún bò Huế có hương vị đậm đà, cay nồng, thơm ngon và rất phổ biến trong ẩm thực Việt Nam.",
+    "img": "assets/image/bun_bo_hue.jpg",
+    "location": "Huế",
+    "sold": 0},
+    {
+    "id": 3,
+    "name": "Bún riêu",
+    "price": 25000,
+    "description":
+        "Bún riêu là một món ăn phổ biến của người Việt Nam. Món ăn này thường được chế biến từ bún, nước dùng từ cua, cà chua, rau sống, mắm tôm, và các loại gia vị khác.",
+    "img": "'assets/image/bun_rieu.jpg'",
+    "location": "Hải Phòng",
+    "sold": 0
+    },
+    {
+        "id": 4,
+    "name": "Cơm tấm",
+    "price": 25000,
+    "description":
+        "Cơm tấm là một món ăn phổ biến của người Việt Nam. Món ăn này thường được chế biến từ cơm, thịt nướng, trứng, rau sống, nước mắm, tương ớt, và các loại gia vị khác.",
+    "img": "assets/image/com_tam.jpg",
+    "location": "Hà Nội",
+    "sold": 0
+    },
+    {
+        "id": 5,
+    "name": "Nem nướng",
+    "price": 25000,
+    "description":
+        "Nem nướng là một món ăn phổ biến của người Việt Nam. Món ăn này thường được chế biến từ thịt nướng, bún, rau sống, nước mắm, tương ớt, và các loại gia vị khác.",
+    "img": "assets/image/nemnuong.jpg",
+    "location": "Hải Dương",
+    "sold": 0
+    },
+    {
+        "id": 6,
+    "name": "Mực rim cay",
+    "price": 50000,
+    "description":
+        "Mực rim cay là một món ăn phổ biến trong ẩm thực Việt Nam. Món ăn này được làm từ mực tươi, được chế biến bằng cách rim cùng với các loại gia vị và nước sốt cay nồng. Mực thường được xào nhanh trong dầu nóng với tỏi, ớt và các loại gia vị khác như tiêu, muối, đường và nước mắm để tạo ra hương vị đậm đà và cay nồng. ",
+    "img": "assets/image/mucongdim.jpg",
+    "location": "Hà Nội",
+    "sold": 0
+    },
+    {
+        "id": 7,
+    "name": "Rau muống xào tỏi",
+    "price": 20000,
+    "description":
+        "Rau muống xào tỏi là một món ăn phổ biến trong ẩm thực Việt Nam. Rau muống được xào nhanh chóng trong dầu nóng với tỏi băm nhỏ cho đến khi chúng mềm nhưng vẫn giữ được độ tươi ngon và màu xanh tươi. Món ăn này thường được gia vị với muối, tiêu và nước mắm để tạo ra hương vị đậm đà. Rau muống xào tỏi thường được dùng kèm với cơm trắng nóng hổi hoặc là một phần của bữa ăn chính. ",
+    "img": "assets/image/raumuongxao.jpg",
+    "location": "Hà Nội",
+    "sold": 0
+    }
+]
+
+}
