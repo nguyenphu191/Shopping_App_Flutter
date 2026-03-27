@@ -1,3 +1,18 @@
+buildscript {
+    ext.kotlin_version = '2.1.0'
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.4.2'
+    }
+}
+
+plugins {
+  id 'com.google.gms.google-services' version '4.4.4' apply false
+}
+
 allprojects {
     repositories {
         google()
@@ -15,21 +30,4 @@ subprojects {
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
-}
-ext.kotlin_version = '1.9.22'
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
-        // Nếu có thêm flutter plugin:
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
-        classpath 'com.google.gms:google-services:4.4.2'
-    }
-}
-plugins {
-  id 'com.google.gms.google-services' version '4.4.4' apply false
-
 }

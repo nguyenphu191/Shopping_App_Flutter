@@ -8,11 +8,11 @@ class AuthRepository {
   AuthRepository(this._client);
 
   Future<Map<String, dynamic>> login(
-      String username, String password) async {
+      String email, String password) async {
     try {
       final data = await _client.post(
         ApiEndpoints.login,
-        {'username': username, 'password': password},
+        {'email': email, 'password': password},
       );
       if (data['user'] != null) {
         final User user = User.fromJson(data['user']);
