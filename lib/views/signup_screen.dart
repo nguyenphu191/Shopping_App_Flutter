@@ -1,11 +1,7 @@
-// import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_shopping_app/models/address.dart';
 import 'package:flutter_shopping_app/view_models/auth_view_model.dart';
-import 'package:flutter_shopping_app/widgets/big_text.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -17,408 +13,420 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _roleController = TextEditingController();
-  TextEditingController _streetController = TextEditingController();
-  TextEditingController _districtController = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
-  TextEditingController _countryController = TextEditingController();
-  final List<String> _roles = ['Seller', 'Customer'];
-  late String selectedRole;
-  late Address address;
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _streetController = TextEditingController();
+  final _districtController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _countryController = TextEditingController();
+
+  final List<String> _roles = ['Customer', 'Seller'];
+  String _selectedRole = 'Customer';
+  bool _obscurePassword = true;
+  bool _isLoading = false;
+
   late VideoPlayerController _videoController;
   bool _isVideoInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    selectedRole = _roles.first;
-    _roleController.text = selectedRole;
     _videoController = VideoPlayerController.asset('assets/video/shopping.mp4')
       ..initialize().then((_) {
-        // Đánh dấu là đã khởi tạo
-        setState(() {
-          _isVideoInitialized = true;
-        });
-        _videoController.setLooping(true);
-        _videoController.play();
+        if (mounted) {
+          setState(() => _isVideoInitialized = true);
+          _videoController.setLooping(true);
+          _videoController.play();
+        }
       });
   }
 
   @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _streetController.dispose();
+    _districtController.dispose();
+    _cityController.dispose();
+    _countryController.dispose();
+    _videoController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            _isVideoInitialized
-                ? SizedBox.expand(
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: SizedBox(
-                        width: _videoController.value.size.width,
-                        height: _videoController.value.size.height,
-                        child: VideoPlayer(_videoController),
-                      ),
-                    ),
-                  )
-                : Center(child: CircularProgressIndicator()),
-            Positioned(
-              top: 100,
-              right: 30,
-              left: 30,
-              bottom: 100,
+    return Scaffold(
+      body: Stack(
+        children: [
+          if (_isVideoInitialized)
+            SizedBox.expand(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _videoController.value.size.width,
+                  height: _videoController.value.size.height,
+                  child: VideoPlayer(_videoController),
+                ),
+              ),
+            )
+          else
+            Container(color: Colors.black),
+
+          Container(color: Colors.black.withValues(alpha: 0.4)),
+
+          SafeArea(
+            child: Center(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Center(
-                  child: Container(
-                    // width: 340,
-                    decoration: BoxDecoration(
-                      color:
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 20),
-                        child: BigText(
-                          '',
-                          text: 'Đăng ký',
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.72),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Header
+                      const Icon(Icons.shopping_bag_rounded, color: Colors.blue, size: 48),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Tạo tài khoản',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
                           color: Colors.white,
-                          size: 30,
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10, bottom: 10, left: 25),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Chào mừng bạn đến với FuFu',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                            Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
-                          ],
+                      const SizedBox(height: 4),
+                      Text(
+                        'Chào mừng bạn đến với FuFu \u2764',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.7),
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InputBox(
-                            isSecured: false,
-                            hint: "username",
-                            txtController: _usernameController,
-                            width: double.maxFinite),
+                      const SizedBox(height: 28),
+
+                      // Thông tin cơ bản
+                      _sectionLabel('Thông tin tài khoản'),
+                      const SizedBox(height: 10),
+                      _AuthField(
+                        controller: _usernameController,
+                        hint: 'Tên đăng nhập',
+                        icon: Icons.person_outline,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InputBox(
-                            isSecured: false,
-                            hint: "email",
-                            txtController: _emailController,
-                            width: double.maxFinite),
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _emailController,
+                        hint: 'Email',
+                        icon: Icons.email_outlined,
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InputBox(
-                            isSecured: false,
-                            hint: "phone",
-                            txtController: _phoneController,
-                            width: double.maxFinite),
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _phoneController,
+                        hint: 'Số điện thoại',
+                        icon: Icons.phone_outlined,
+                        keyboardType: TextInputType.phone,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InputBox(
-                            isSecured: true,
-                            hint: "password",
-                            txtController: _passwordController,
-                            width: double.maxFinite),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          children: [
-                            Text('Địa chỉ: ',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                )),
-                            Container(
-                              height: 40,
-                              width: double.maxFinite,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InputBox(
-                                      hint: "Địa chỉ cụ thể",
-                                      txtController: _streetController,
-                                      isSecured: false,
-                                      width: 150),
-                                  InputBox(
-                                      hint: "Đường-Quận/Huyện",
-                                      txtController: _districtController,
-                                      isSecured: false,
-                                      width: 180),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Container(
-                              height: 40,
-                              width: double.maxFinite,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  InputBox(
-                                      hint: "Thành phố/Tỉnh",
-                                      txtController: _cityController,
-                                      isSecured: false,
-                                      width: 150),
-                                  InputBox(
-                                      hint: "Quốc gia",
-                                      txtController: _countryController,
-                                      isSecured: false,
-                                      width: 180),
-                                ],
-                              ),
-                            )
-                          ],
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _passwordController,
+                        hint: 'Mật khẩu',
+                        icon: Icons.lock_outline,
+                        obscure: _obscurePassword,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.white54,
+                            size: 20,
+                          ),
+                          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                         ),
                       ),
-                      Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Text('Bạn là: ',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18)),
-                              DropdownButton<String>(
-                                value: selectedRole,
-                                items: _roles.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,
-                                        style: TextStyle(
-                                            color: const Color.fromARGB(
-                                                255, 255, 0, 0),
-                                            fontSize: 15)),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedRole = value!;
-                                    _roleController.text = value;
-                                  });
-                                },
-                              ),
-                            ],
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InkWell(
-                          onTap: () async {
-                            if (_usernameController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập tên đăng nhập');
-                            } else if (_emailController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập email');
-                            } else if (_passwordController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập mật khẩu');
-                            } else if (_streetController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập số nhà');
-                            } else if (_districtController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập đường');
-                            } else if (_cityController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập thành phố');
-                            } else if (_countryController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập quốc gia');
-                            } else if (_phoneController.text.isEmpty) {
-                              ShowMessage(
-                                  context: context,
-                                  title: 'Lỗi',
-                                  message: 'Vui lòng nhập số điện thoại');
-                            } else {
-                              register(context);
-                            }
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            height: 50,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.blue,
-                            ),
-                            child: Text(
-                              'Đăng ký',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                      const SizedBox(height: 24),
+
+                      // Địa chỉ
+                      _sectionLabel('Địa chỉ'),
+                      const SizedBox(height: 10),
+                      _AuthField(
+                        controller: _streetController,
+                        hint: 'Số nhà, tên đường',
+                        icon: Icons.home_outlined,
+                      ),
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _districtController,
+                        hint: 'Quận / Huyện',
+                        icon: Icons.location_city_outlined,
+                      ),
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _cityController,
+                        hint: 'Thành phố / Tỉnh',
+                        icon: Icons.map_outlined,
+                      ),
+                      const SizedBox(height: 12),
+                      _AuthField(
+                        controller: _countryController,
+                        hint: 'Quốc gia',
+                        icon: Icons.flag_outlined,
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Vai trò
+                      _sectionLabel('Bạn là'),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.white.withValues(alpha: 0.24)),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _selectedRole,
+                            isExpanded: true,
+                            dropdownColor: const Color(0xFF1A1A2E),
+                            icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white54),
+                            items: _roles.map((role) {
+                              return DropdownMenuItem<String>(
+                                value: role,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      role == 'Customer' ? Icons.person : Icons.store_outlined,
+                                      color: Colors.blue,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      role == 'Customer' ? 'Khách hàng' : 'Người bán',
+                                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) setState(() => _selectedRole = value);
+                            },
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Bạn đã có tài khoản?',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18)),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/login');
-                              },
-                              child: Text('Đăng nhập',
+                      const SizedBox(height: 28),
+
+                      // Nút đăng ký
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : _handleRegister,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            disabledBackgroundColor: Colors.blue.withValues(alpha: 0.5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: _isLoading
+                              ? const SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : const Text(
+                                  'Đăng ký',
                                   style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ],
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(),
-                        child: Column(
-                          children: [
-                            Text('Đăng ký với:',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.facebook, size: 35),
-                                  color: Color.fromARGB(255, 0, 140, 255),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.email, size: 35),
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ],
+                      const SizedBox(height: 20),
+
+                      // Đã có tài khoản
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Đã có tài khoản?',
+                            style: TextStyle(color: Colors.white70, fontSize: 14),
+                          ),
+                          TextButton(
+                            onPressed: () => context.pop(),
+                            child: const Text(
+                              'Đăng nhập',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ]),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _sectionLabel(String label) {
+    return Text(
+      label,
+      style: TextStyle(
+        color: Colors.white.withValues(alpha: 0.6),
+        fontSize: 12,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.8,
+      ),
+    );
+  }
+
+  Future<void> _handleRegister() async {
+    final validations = <MapEntry<String, String>>[
+      MapEntry(_usernameController.text.trim(), 'Vui lòng nhập tên đăng nhập'),
+      MapEntry(_emailController.text.trim(), 'Vui lòng nhập email'),
+      MapEntry(_phoneController.text.trim(), 'Vui lòng nhập số điện thoại'),
+      MapEntry(_passwordController.text, 'Vui lòng nhập mật khẩu'),
+      MapEntry(_streetController.text.trim(), 'Vui lòng nhập số nhà, tên đường'),
+      MapEntry(_districtController.text.trim(), 'Vui lòng nhập quận / huyện'),
+      MapEntry(_cityController.text.trim(), 'Vui lòng nhập thành phố / tỉnh'),
+      MapEntry(_countryController.text.trim(), 'Vui lòng nhập quốc gia'),
+    ];
+
+    for (final entry in validations) {
+      if (entry.key.isEmpty) {
+        _showError(entry.value);
+        return;
+      }
+    }
+
+    setState(() => _isLoading = true);
+
+    final authVM = Provider.of<AuthViewModel>(context, listen: false);
+
+    try {
+      final address = Address(
+        street: _streetController.text.trim(),
+        district: _districtController.text.trim(),
+        city: _cityController.text.trim(),
+        country: _countryController.text.trim(),
+      );
+
+      final response = await authVM.register(
+        _usernameController.text.trim(),
+        _selectedRole,
+        _emailController.text.trim(),
+        _phoneController.text.trim(),
+        _passwordController.text,
+        address,
+      );
+
+      if (!mounted) return;
+
+      if (response['status'] == 'success') {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Đăng ký thành công'),
+            content: const Text('Tài khoản đã được tạo. Vui lòng đăng nhập.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                  context.pop();
+                },
+                child: const Text('Đăng nhập ngay'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        _showError('Đăng ký thất bại. Vui lòng thử lại.');
+      }
+    } catch (e) {
+      if (!mounted) return;
+      _showError(e.toString());
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: Colors.redAccent),
+    );
+  }
+}
+
+class _AuthField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hint;
+  final IconData icon;
+  final bool obscure;
+  final Widget? suffixIcon;
+  final TextInputType? keyboardType;
+
+  const _AuthField({
+    required this.controller,
+    required this.hint,
+    required this.icon,
+    this.obscure = false,
+    this.suffixIcon,
+    this.keyboardType,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      obscureText: obscure,
+      keyboardType: keyboardType,
+      style: const TextStyle(color: Colors.white, fontSize: 15),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.38), fontSize: 15),
+        prefixIcon: Icon(icon, color: Colors.white54, size: 20),
+        suffixIcon: suffixIcon,
+        filled: true,
+        fillColor: Colors.white.withValues(alpha: 0.08),
+        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.24)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.24)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Colors.blue, width: 1.5),
         ),
       ),
     );
   }
-
-  void register(BuildContext context) async {
-    address = Address(
-      street: _streetController.text,
-      district: _districtController.text,
-      city: _cityController.text,
-      country: _countryController.text,
-    );
-    final response = await Provider.of<AuthViewModel>(context, listen: false)
-        .register(
-            _usernameController.text,
-            _roleController.text,
-            _emailController.text,
-            _phoneController.text,
-            _passwordController.text,
-            address);
-    if (response['status'] == 'success') {
-      ShowMessage(
-          context: context, title: 'Thành công', message: 'Đăng ký thành công');
-    } else {
-      ShowMessage(context: context, title: 'Lỗi', message: 'Đăng ký thất bại');
-    }
-  }
-}
-
-Widget InputBox(
-    {required String hint,
-    required TextEditingController txtController,
-    required bool isSecured,
-    required double width}) {
-  return Container(
-    height: 40,
-    width: width,
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(10),
-      border: Border.all(color: const Color.fromARGB(255, 255, 255, 255)),
-    ),
-    child: TextField(
-      obscureText: isSecured,
-      controller: txtController,
-      style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: TextStyle(color: Colors.white),
-        border: InputBorder.none,
-      ),
-    ),
-  );
-}
-
-ShowMessage(
-    {required BuildContext context,
-    required String title,
-    required String message}) {
-  showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            CupertinoDialogAction(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.pushNamed(context, "/");
-              },
-            )
-          ],
-        );
-      });
 }

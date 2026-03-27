@@ -13,8 +13,8 @@ class AuthViewModel with ChangeNotifier {
   User? get user => _user;
   String? get role => _role;
 
-  Future<void> login(String username, String password) async {
-    final result = await _authRepository.login(username, password);
+  Future<void> login(String email, String password) async {
+    final result = await _authRepository.login(email, password);
     if (result['status'] == 'success') {
       final user = result['user'] as User;
       if (user.isBlocked) {
